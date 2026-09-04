@@ -981,8 +981,18 @@ function ServerRail({ sunucular, aktifSunucu, sunucuSec, onYeniTopluluk }) {
   );
 }
 
-function ChannelList({ sunucu, kanallar, aktifKanalId, setAktifKanalId, profile }) {
+function ChannelList({ sunucu, kanallar, aktifKanalId, setAktifKanalId, profile, onYeniKanal }) {
   const { accent } = useContext(AccentContext);
+  const [formAcik, setFormAcik] = useState(false);
+  const [isim, setIsim] = useState("");
+
+  const gonder = () => {
+    if (!isim.trim()) return;
+    onYeniKanal(isim.trim());
+    setIsim("");
+    setFormAcik(false);
+  };
+
   return (
     <div className="w-56 shrink-0 flex flex-col" style={{ backgroundColor: "var(--anima-panel2)", borderRight: "1px solid #2A2F55" }}>
       <div className="px-4 py-4 border-b flex items-center justify-between" style={{ borderColor: "#2A2F55" }}>
@@ -990,7 +1000,29 @@ function ChannelList({ sunucu, kanallar, aktifKanalId, setAktifKanalId, profile 
         <ChevronDown size={15} color="#8D89B0" />
       </div>
       <div className="flex-1 overflow-y-auto py-3 px-2">
-        <p className="font-body text-[11px] font-medium px-2 mb-1.5" style={{ color: "#6B6890" }}>Metin kanalları</p>
+        <div className="flex items-center justify-between px-2 mb-1.5">
+          <p className="font-body text-[11px] font-medium" style={{ color: "#6B6890" }}>Metin kanalları</p>
+          <button onClick={() => setFormAcik((v) => !v)} title="Kanal ekle">
+            <Plus size={13} color="#6B6890" />
+          </button>
+        </div>
+        {formAcik && (
+          <div className="mb-2 px-1">
+            <input
+              autoFocus
+              value={isim}
+              onChange={(e) => setIsim(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && gonder()}
+              placeholder="kanal-adı"
+              className="w-full px-2.5 py-1.5 rounded-lg font-body text-xs outline-none mb-1.5"
+              style={{ backgroundColor: "var(--anima-panel)", color: "var(--anima-text)", border: "1px solid #2A2F55" }}
+            />
+            <div className="flex gap-1.5">
+              <button onClick={gonder} className="flex-1 py-1 rounded-lg font-body text-[11px] font-medium" style={{ backgroundColor: "#9C8FFF", color: "#14172B" }}>Ekle</button>
+              <button onClick={() => { setFormAcik(false); setIsim(""); }} className="flex-1 py-1 rounded-lg font-body text-[11px] font-medium" style={{ backgroundColor: "var(--anima-panel)", color: "#C9C5E8" }}>Vazgeç</button>
+            </div>
+          </div>
+        )}
         {kanallar.metin.map((k) => {
           const aktif = aktifKanalId === k.id;
           return (
@@ -1122,7 +1154,7 @@ function MemberList({ uyeler, profile }) {
   );
 }
 
-function TopluluklarView({ sunucular, kanalYapisi, uyelerMap, aktifSunucu, sunucuSec, aktifKanalId, setAktifKanalId, communityMessages, setCommunityMessages, profile, onYeniTopluluk }) {
+function TopluluklarView({ sunucular, kanalYapisi, uyelerMap, aktifSunucu, sunucuSec, aktifKanalId, setAktifKanalId, communityMessages, setCommunityMessages, profile, onYeniTopluluk, onYeniKanal }) {
   const sunucu = sunucular.find((s) => s.id === aktifSunucu);
   const kanallar = kanalYapisi[aktifSunucu];
   const uyeler = uyelerMap[aktifSunucu] || [];
@@ -1131,7 +1163,7 @@ function TopluluklarView({ sunucular, kanalYapisi, uyelerMap, aktifSunucu, sunuc
   return (
     <div className="flex-1 flex min-h-0">
       <ServerRail sunucular={sunucular} aktifSunucu={aktifSunucu} sunucuSec={sunucuSec} onYeniTopluluk={onYeniTopluluk} />
-      <ChannelList sunucu={sunucu} kanallar={kanallar} aktifKanalId={aktifKanal.id} setAktifKanalId={setAktifKanalId} profile={profile} />
+      <ChannelList sunucu={sunucu} kanallar={kanallar} aktifKanalId={aktifKanal.id} setAktifKanalId={setAktifKanalId} profile={profile} onYeniKanal={onYeniKanal} />
       <ToplulukChat kanal={aktifKanal} mesajlar={communityMessages} setMesajlar={setCommunityMessages} profile={profile} />
       <MemberList uyeler={uyeler} profile={profile} />
     </div>
@@ -1480,6 +1512,16 @@ export default function AnimaApp() {
     setAktifKanalId("genel");
   };
 
+  const yeniKanalOlustur = (isim) => {
+    const id = isim.toLocaleLowerCase("tr-TR").replace(/\s+/g, "-").replace(/[^a-z0-9ığüşöç-]/g, "") || "kanal-" + Date.now();
+    setKanalYapisi((k) => {
+      const s = k[aktifSunucu];
+      if (s.metin.some((c) => c.id === id)) return k;
+      return { ...k, [aktifSunucu]: { ...s, metin: [...s.metin, { id, ad: id, aciklama: `${isim} kanalı` }] } };
+    });
+    setAktifKanalId(id);
+  };
+
   const basliklar = { profil: "Anima", mesajlar: "Mesajlar", topluluklar: "Topluluklar", liderlik: "Liderlik Tablosu", ayarlar: "Ayarlar" };
 
   return (
@@ -1525,6 +1567,7 @@ export default function AnimaApp() {
                 setCommunityMessages={setCommunityMessages}
                 profile={profile}
                 onYeniTopluluk={yeniToplulukOlustur}
+                onYeniKanal={yeniKanalOlustur}
               />
             )}
             {ana === "liderlik" && <LiderlikView profile={profile} oyun={oyun} />}
