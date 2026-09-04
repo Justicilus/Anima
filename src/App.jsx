@@ -407,13 +407,13 @@ const DERS_ODALARI = [
   { ad: "Kimya – Mol Kavramı", katilimci: 0, canli: false },
 ];
 
-const SUNUCULAR = [
+const SUNUCULAR_BASLANGIC = [
   { id: "yks", ad: "YKS Matematik", kisa: "YM", renk: "#9C8FFF", uye: 342 },
   { id: "ing", ad: "İngilizce Kulübü", kisa: "İK", renk: "#FF8F6B", uye: 128 },
   { id: "kod", ad: "Kodlama Atölyesi", kisa: "KA", renk: "#6FD3C7", uye: 96 },
 ];
 
-const KANAL_YAPISI = {
+const KANAL_YAPISI_BASLANGIC = {
   yks: {
     metin: [
       { id: "genel", ad: "genel-sohbet", aciklama: "YKS Matematik topluluğunun genel sohbet alanı" },
@@ -438,7 +438,7 @@ const KANAL_YAPISI = {
   },
 };
 
-const UYELER = {
+const UYELER_BASLANGIC = {
   yks: [
     { ad: SELF, durum: "cevrimici", rol: "moderator" },
     { ad: "Ali Kaya", durum: "cevrimici" },
@@ -742,12 +742,12 @@ function Rozetler() {
   );
 }
 
-function Topluluklarim({ setAna, setAktifSunucu }) {
+function Topluluklarim({ setAna, setAktifSunucu, sunucular }) {
   return (
     <div className="rounded-2xl p-5" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
       <h3 className="font-display font-semibold text-sm mb-4" style={{ color: "var(--anima-text)" }}>Topluluklarım</h3>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {SUNUCULAR.map((t) => (
+        {sunucular.map((t) => (
           <button
             key={t.id}
             onClick={() => { setAktifSunucu(t.id); setAna("topluluklar"); }}
@@ -786,14 +786,14 @@ function DersOdalarim() {
   );
 }
 
-function ProfilView({ profile, setProfile, setAna, setAktifSunucu, oyun }) {
+function ProfilView({ profile, setProfile, setAna, setAktifSunucu, oyun, sunucular }) {
   return (
     <main className="flex-1 overflow-y-auto px-5 md:px-8 pb-10 flex flex-col gap-6 max-w-3xl">
       <ProfileHero profile={profile} setProfile={setProfile} />
       <XPBar oyun={oyun} />
       <Rozetler />
       <WeeklyChart />
-      <Topluluklarim setAna={setAna} setAktifSunucu={setAktifSunucu} />
+      <Topluluklarim setAna={setAna} setAktifSunucu={setAktifSunucu} sunucular={sunucular} />
       <DersOdalarim />
     </main>
   );
@@ -919,10 +919,20 @@ function MesajlarView({ aktifKisi, setAktifKisi, dmMessages, setDmMessages, prof
 
 /* ---------- topluluklar (sunucular) ---------- */
 
-function ServerRail({ aktifSunucu, sunucuSec }) {
+function ServerRail({ sunucular, aktifSunucu, sunucuSec, onYeniTopluluk }) {
+  const [formAcik, setFormAcik] = useState(false);
+  const [isim, setIsim] = useState("");
+
+  const gonder = () => {
+    if (!isim.trim()) return;
+    onYeniTopluluk(isim.trim());
+    setIsim("");
+    setFormAcik(false);
+  };
+
   return (
-    <div className="flex flex-col items-center gap-3 w-16 py-4 shrink-0" style={{ backgroundColor: "#0F1226" }}>
-      {SUNUCULAR.map((s) => {
+    <div className="relative flex flex-col items-center gap-3 w-16 py-4 shrink-0" style={{ backgroundColor: "#0F1226" }}>
+      {sunucular.map((s) => {
         const aktif = aktifSunucu === s.id;
         return (
           <button
@@ -936,9 +946,37 @@ function ServerRail({ aktifSunucu, sunucuSec }) {
           </button>
         );
       })}
-      <button className="w-11 h-11 rounded-full flex items-center justify-center mt-1" style={{ backgroundColor: "var(--anima-panel)", color: "#6FD3C7" }} title="Topluluk keşfet">
+      <button
+        onClick={() => setFormAcik(true)}
+        className="w-11 h-11 rounded-full flex items-center justify-center mt-1"
+        style={{ backgroundColor: "var(--anima-panel)", color: "#6FD3C7" }}
+        title="Yeni topluluk oluştur"
+      >
         <Plus size={18} />
       </button>
+
+      {formAcik && (
+        <div className="absolute left-16 top-4 z-30 w-64 p-4 rounded-2xl" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
+          <p className="font-body text-sm font-medium mb-2" style={{ color: "var(--anima-text)" }}>Yeni topluluk oluştur</p>
+          <input
+            autoFocus
+            value={isim}
+            onChange={(e) => setIsim(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && gonder()}
+            placeholder="Topluluk adı"
+            className="w-full px-3 py-2 rounded-lg font-body text-sm outline-none"
+            style={{ backgroundColor: "var(--anima-panel2)", color: "var(--anima-text)", border: "1px solid #2A2F55" }}
+          />
+          <div className="flex gap-2 mt-3">
+            <button onClick={gonder} className="flex-1 py-2 rounded-lg font-body text-xs font-medium" style={{ backgroundColor: "#9C8FFF", color: "#14172B" }}>
+              Oluştur
+            </button>
+            <button onClick={() => { setFormAcik(false); setIsim(""); }} className="flex-1 py-2 rounded-lg font-body text-xs font-medium" style={{ backgroundColor: "var(--anima-panel2)", color: "#C9C5E8" }}>
+              Vazgeç
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -1084,15 +1122,15 @@ function MemberList({ uyeler, profile }) {
   );
 }
 
-function TopluluklarView({ aktifSunucu, sunucuSec, aktifKanalId, setAktifKanalId, communityMessages, setCommunityMessages, profile }) {
-  const sunucu = SUNUCULAR.find((s) => s.id === aktifSunucu);
-  const kanallar = KANAL_YAPISI[aktifSunucu];
-  const uyeler = UYELER[aktifSunucu];
+function TopluluklarView({ sunucular, kanalYapisi, uyelerMap, aktifSunucu, sunucuSec, aktifKanalId, setAktifKanalId, communityMessages, setCommunityMessages, profile, onYeniTopluluk }) {
+  const sunucu = sunucular.find((s) => s.id === aktifSunucu);
+  const kanallar = kanalYapisi[aktifSunucu];
+  const uyeler = uyelerMap[aktifSunucu] || [];
   const aktifKanal = kanallar.metin.find((k) => k.id === aktifKanalId) || kanallar.metin[0];
 
   return (
     <div className="flex-1 flex min-h-0">
-      <ServerRail aktifSunucu={aktifSunucu} sunucuSec={sunucuSec} />
+      <ServerRail sunucular={sunucular} aktifSunucu={aktifSunucu} sunucuSec={sunucuSec} onYeniTopluluk={onYeniTopluluk} />
       <ChannelList sunucu={sunucu} kanallar={kanallar} aktifKanalId={aktifKanal.id} setAktifKanalId={setAktifKanalId} profile={profile} />
       <ToplulukChat kanal={aktifKanal} mesajlar={communityMessages} setMesajlar={setCommunityMessages} profile={profile} />
       <MemberList uyeler={uyeler} profile={profile} />
@@ -1415,13 +1453,31 @@ export default function AnimaApp() {
   const [aktifKisi, setAktifKisi] = useState("ali");
   const [dmMessages, setDmMessages] = useState(DM_BASLANGIC);
 
+  const [sunucular, setSunucular] = useState(SUNUCULAR_BASLANGIC);
+  const [kanalYapisi, setKanalYapisi] = useState(KANAL_YAPISI_BASLANGIC);
+  const [uyelerMap, setUyelerMap] = useState(UYELER_BASLANGIC);
   const [aktifSunucu, setAktifSunucu] = useState("yks");
   const [aktifKanalId, setAktifKanalId] = useState("genel");
   const [communityMessages, setCommunityMessages] = useState(TOPLULUK_SOHBET_BASLANGIC);
 
   const sunucuSec = (id) => {
     setAktifSunucu(id);
-    setAktifKanalId(KANAL_YAPISI[id].metin[0].id);
+    setAktifKanalId(kanalYapisi[id].metin[0].id);
+  };
+
+  const yeniToplulukOlustur = (isim) => {
+    const id = "t" + Date.now();
+    const renkler = ["#9C8FFF", "#FF8F6B", "#6FD3C7", "#FF6FA5", "#F2C94C"];
+    const yeniSunucu = { id, ad: isim, kisa: initials(isim), renk: renkler[sunucular.length % renkler.length], uye: 1 };
+    setSunucular((s) => [...s, yeniSunucu]);
+    setKanalYapisi((k) => ({
+      ...k,
+      [id]: { metin: [{ id: "genel", ad: "genel-sohbet", aciklama: `${isim} topluluğunun genel sohbet alanı` }], ses: [] },
+    }));
+    setUyelerMap((u) => ({ ...u, [id]: [{ ad: SELF, durum: "cevrimici", rol: "moderator" }] }));
+    setCommunityMessages((m) => ({ ...m, genel: m.genel || [] }));
+    setAktifSunucu(id);
+    setAktifKanalId("genel");
   };
 
   const basliklar = { profil: "Anima", mesajlar: "Mesajlar", topluluklar: "Topluluklar", liderlik: "Liderlik Tablosu", ayarlar: "Ayarlar" };
@@ -1452,12 +1508,15 @@ export default function AnimaApp() {
           <div className="flex-1 flex flex-col min-w-0 pb-16 md:pb-0">
             {ana !== "mesajlar" && <TopBar baslik={basliklar[ana]} />}
 
-            {ana === "profil" && <ProfilView profile={profile} setProfile={setProfile} setAna={setAna} setAktifSunucu={sunucuSec} oyun={oyun} />}
+            {ana === "profil" && <ProfilView profile={profile} setProfile={setProfile} setAna={setAna} setAktifSunucu={sunucuSec} oyun={oyun} sunucular={sunucular} />}
             {ana === "mesajlar" && (
               <MesajlarView aktifKisi={aktifKisi} setAktifKisi={setAktifKisi} dmMessages={dmMessages} setDmMessages={setDmMessages} profile={profile} />
             )}
             {ana === "topluluklar" && (
               <TopluluklarView
+                sunucular={sunucular}
+                kanalYapisi={kanalYapisi}
+                uyelerMap={uyelerMap}
                 aktifSunucu={aktifSunucu}
                 sunucuSec={sunucuSec}
                 aktifKanalId={aktifKanalId}
@@ -1465,6 +1524,7 @@ export default function AnimaApp() {
                 communityMessages={communityMessages}
                 setCommunityMessages={setCommunityMessages}
                 profile={profile}
+                onYeniTopluluk={yeniToplulukOlustur}
               />
             )}
             {ana === "liderlik" && <LiderlikView profile={profile} oyun={oyun} />}
