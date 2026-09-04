@@ -1324,7 +1324,7 @@ function RenkSecici({ etiket, renk, setRenk }) {
   );
 }
 
-function AyarlarView({ profile }) {
+function AyarlarView({ profile, session, cikisYap }) {
   const { accent, setAccent } = useContext(AccentContext);
   const {
     bgRenk, setBgRenk,
@@ -1446,13 +1446,27 @@ function AyarlarView({ profile }) {
         </div>
         <p className="font-body text-xs mt-2" style={{ color: "#8D89B0" }}>Ders sorularına yardım ve sohbet özetleme burada açılacak.</p>
       </div>
+
+      {session && (
+        <div className="rounded-2xl p-5" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
+          <h3 className="font-display font-semibold text-sm mb-1" style={{ color: "var(--anima-text)" }}>Hesap</h3>
+          <p className="font-body text-xs mb-4" style={{ color: "#8D89B0" }}>Giriş yapılan e-posta: {session.user?.email}</p>
+          <button
+            onClick={cikisYap}
+            className="px-4 py-2 rounded-full font-body text-xs font-medium"
+            style={{ backgroundColor: "#262B52", color: "#FF8F6B" }}
+          >
+            Çıkış yap
+          </button>
+        </div>
+      )}
     </main>
   );
 }
 
 /* ---------- kök uygulama ---------- */
 
-export default function AnimaApp() {
+export default function AnimaApp({ session, cikisYap }) {
   const [ana, setAna] = useState("profil");
   const [accent, setAccent] = useState("#9C8FFF");
   const [cerceve, setCerceve] = useState("kozmik");
@@ -1571,7 +1585,7 @@ export default function AnimaApp() {
               />
             )}
             {ana === "liderlik" && <LiderlikView profile={profile} oyun={oyun} />}
-            {ana === "ayarlar" && <AyarlarView profile={profile} />}
+            {ana === "ayarlar" && <AyarlarView profile={profile} session={session} cikisYap={cikisYap} />}
           </div>
         </div>
         </ThemeContext.Provider>
