@@ -1,4 +1,5 @@
 import React, { useState, createContext, useContext, useId } from "react";
+import { Link } from "react-router-dom";
 import {
   User,
   MessageCircle,
@@ -32,7 +33,7 @@ const slug = (isim) =>
     .replace(/ü/g, "u").replace(/ö/g, "o").replace(/ç/g, "c").replace(/\s+/g, "");
 
 const avatarGradient = (accent) => {
-  const diger = accent === "#FF8F6B" ? "#9C8FFF" : "#FF8F6B";
+  const diger = accent === "#A8D8B9" ? "#7CB893" : "#A8D8B9";
   return `linear-gradient(135deg, ${accent} 0%, ${diger} 100%)`;
 };
 
@@ -40,7 +41,7 @@ const SELF = "__SELF__";
 
 /* ---------- uygulama simgesi ---------- */
 
-function AnimaLogo({ startColor = "#9C8FFF", endColor = "#FF8F6B", size = 40 }) {
+function GlennaLogo({ startColor = "#7CB893", endColor = "#A8D8B9", size = 40 }) {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const gradientId = `animaGrad_${uid}`;
   return (
@@ -61,7 +62,7 @@ function AnimaLogo({ startColor = "#9C8FFF", endColor = "#FF8F6B", size = 40 }) 
 
 /* ---------- kişiselleştirme (accent) ---------- */
 
-const AccentContext = createContext({ accent: "#9C8FFF", setAccent: () => {} });
+const AccentContext = createContext({ accent: "#7CB893", setAccent: () => {} });
 const FrameContext = createContext({ cerceve: "kozmik", setCerceve: () => {} });
 const TitleContext = createContext({ unvan: "mat", setUnvan: () => {} });
 const ThemeContext = createContext({
@@ -70,10 +71,10 @@ const ThemeContext = createContext({
   metinRengi: "#F3F1FA", setMetinRengi: () => {},
   isimRengi: "#F3F1FA", setIsimRengi: () => {},
   isimGradyan: false, setIsimGradyan: () => {},
-  isimBitis: "#FF8F6B", setIsimBitis: () => {},
+  isimBitis: "#A8D8B9", setIsimBitis: () => {},
   fontId: "modern", setFontId: () => {},
-  logoBaslangic: "#9C8FFF", setLogoBaslangic: () => {},
-  logoBitis: "#FF8F6B", setLogoBitis: () => {},
+  logoBaslangic: "#7CB893", setLogoBaslangic: () => {},
+  logoBitis: "#A8D8B9", setLogoBitis: () => {},
 });
 
 const koyulastir = (hex, oran = 0.22) => {
@@ -103,11 +104,11 @@ function fontStyleCss(fontId) {
 }
 
 const ACCENT_SECENEKLERI = [
-  { hex: "#9C8FFF", ad: "Menekşe" },
-  { hex: "#FF8F6B", ad: "Mercan" },
+  { hex: "#7CB893", ad: "Adaçayı" },
   { hex: "#6FD3C7", ad: "Nane" },
-  { hex: "#FF6FA5", ad: "Gül" },
-  { hex: "#F2C94C", ad: "Amber" },
+  { hex: "#8FBF7F", ad: "Fıstık" },
+  { hex: "#4F9169", ad: "Orman" },
+  { hex: "#A8D8B9", ad: "Su Yeşili" },
 ];
 
 /* ---------- statik demo verisi ---------- */
@@ -234,14 +235,14 @@ function FrameRing({ id }) {
       <>
         <defs>
           <linearGradient id="cosmicGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#9C8FFF" /><stop offset="100%" stopColor="#C084FC" />
+            <stop offset="0%" stopColor="#7CB893" /><stop offset="100%" stopColor="#C084FC" />
           </linearGradient>
           <filter id="cosmicGlow" x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur stdDeviation="3" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" />
           </filter>
         </defs>
         <circle cx="60" cy="60" r="48" stroke="url(#cosmicGrad)" strokeWidth="4" filter="url(#cosmicGlow)" />
-        <circle cx="60" cy="12" r="4" fill="#FF8F6B" filter="url(#cosmicGlow)" />
+        <circle cx="60" cy="12" r="4" fill="#A8D8B9" filter="url(#cosmicGlow)" />
         <circle cx="102" cy="75" r="3" fill="#6FD3C7" />
       </>
     ),
@@ -263,14 +264,14 @@ function FrameRing({ id }) {
       <>
         <defs>
           <linearGradient id="fireGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#FF8F6B" /><stop offset="50%" stopColor="#FF0055" /><stop offset="100%" stopColor="#9C8FFF" />
+            <stop offset="0%" stopColor="#A8D8B9" /><stop offset="50%" stopColor="#FF0055" /><stop offset="100%" stopColor="#7CB893" />
           </linearGradient>
           <filter id="fireGlow" x="-20%" y="-20%" width="140%" height="140%">
             <feGaussianBlur stdDeviation="4" result="blur" /><feComposite in="SourceGraphic" in2="blur" operator="over" />
           </filter>
         </defs>
         <circle cx="60" cy="60" r="48" stroke="url(#fireGrad)" strokeWidth="4.5" filter="url(#fireGlow)" />
-        <path d="M55 8L60 2L65 8L60 14Z" fill="#FF8F6B" filter="url(#fireGlow)" />
+        <path d="M55 8L60 2L65 8L60 14Z" fill="#A8D8B9" filter="url(#fireGlow)" />
         <path d="M106 55L112 60L106 65L100 60Z" fill="#FF0055" />
       </>
     ),
@@ -407,13 +408,13 @@ const DERS_ODALARI = [
   { ad: "Kimya – Mol Kavramı", katilimci: 0, canli: false },
 ];
 
-const SUNUCULAR = [
-  { id: "yks", ad: "YKS Matematik", kisa: "YM", renk: "#9C8FFF", uye: 342 },
-  { id: "ing", ad: "İngilizce Kulübü", kisa: "İK", renk: "#FF8F6B", uye: 128 },
+const SUNUCULAR_BASLANGIC = [
+  { id: "yks", ad: "YKS Matematik", kisa: "YM", renk: "#7CB893", uye: 342 },
+  { id: "ing", ad: "İngilizce Kulübü", kisa: "İK", renk: "#A8D8B9", uye: 128 },
   { id: "kod", ad: "Kodlama Atölyesi", kisa: "KA", renk: "#6FD3C7", uye: 96 },
 ];
 
-const KANAL_YAPISI = {
+const KANAL_YAPISI_BASLANGIC = {
   yks: {
     metin: [
       { id: "genel", ad: "genel-sohbet", aciklama: "YKS Matematik topluluğunun genel sohbet alanı" },
@@ -438,7 +439,7 @@ const KANAL_YAPISI = {
   },
 };
 
-const UYELER = {
+const UYELER_BASLANGIC = {
   yks: [
     { ad: SELF, durum: "cevrimici", rol: "moderator" },
     { ad: "Ali Kaya", durum: "cevrimici" },
@@ -458,28 +459,28 @@ const UYELER = {
 
 const TOPLULUK_SOHBET_BASLANGIC = {
   genel: [
-    { kim: "Zeynep Demir", renk: "#FF8F6B", saat: "20:14", icerik: "yarınki deneme kaçta başlıyor?" },
+    { kim: "Zeynep Demir", renk: "#A8D8B9", saat: "20:14", icerik: "yarınki deneme kaçta başlıyor?" },
     { kim: "Ali Kaya", renk: "#6FD3C7", saat: "20:16", icerik: "09:00'da, 3 saat sürüyor" },
-    { kim: "Mert Şahin", renk: "#9C8FFF", saat: "20:20", icerik: "türev sorularını tekrar edeyim biraz" },
+    { kim: "Mert Şahin", renk: "#7CB893", saat: "20:20", icerik: "türev sorularını tekrar edeyim biraz" },
   ],
   "soru-cevap": [
-    { kim: "Elif Arslan", renk: "#FF8F6B", saat: "19:02", icerik: "integral alma kuralında takıldım, bakabilir misiniz?" },
+    { kim: "Elif Arslan", renk: "#A8D8B9", saat: "19:02", icerik: "integral alma kuralında takıldım, bakabilir misiniz?" },
   ],
   duyurular: [
-    { kim: SELF, renk: "#9C8FFF", saat: "18:00", icerik: "cumartesi deneme sınavı var, katılım zorunlu" },
+    { kim: SELF, renk: "#7CB893", saat: "18:00", icerik: "cumartesi deneme sınavı var, katılım zorunlu" },
   ],
   kelime: [
     { kim: "Cem Öztürk", renk: "#6FD3C7", saat: "09:00", icerik: "bugünün kelimesi: 'resilience' — zorluklara dayanma gücü" },
   ],
   proje: [
-    { kim: "Buse Yıldız", renk: "#FF8F6B", saat: "14:30", icerik: "hesap makinesi projemi bitirdim, repo linkini atıyorum" },
+    { kim: "Buse Yıldız", renk: "#A8D8B9", saat: "14:30", icerik: "hesap makinesi projemi bitirdim, repo linkini atıyorum" },
   ],
 };
 
 const KISI_LISTESI = [
   { id: "ali", ad: "Ali Kaya", durum: "cevrimici", renk: "#6FD3C7", okunmadi: 2 },
-  { id: "zeynep", ad: "Zeynep Demir", durum: "cevrimici", renk: "#FF8F6B", okunmadi: 0 },
-  { id: "cem", ad: "Cem Öztürk", durum: "bosta", renk: "#9C8FFF", okunmadi: 0 },
+  { id: "zeynep", ad: "Zeynep Demir", durum: "cevrimici", renk: "#A8D8B9", okunmadi: 0 },
+  { id: "cem", ad: "Cem Öztürk", durum: "bosta", renk: "#7CB893", okunmadi: 0 },
   { id: "buse", ad: "Buse Yıldız", durum: "cevrimdisi", renk: "#FF6FA5", okunmadi: 1 },
 ];
 
@@ -498,7 +499,7 @@ const DM_BASLANGIC = {
   buse: [{ kim: "buse", saat: "21:00", icerik: "proje harika olmuş 🎉" }],
 };
 
-const DURUM_RENK = { cevrimici: "#6FD3C7", bosta: "#FF8F6B", cevrimdisi: "#3A3F63" };
+const DURUM_RENK = { cevrimici: "#6FD3C7", bosta: "#A8D8B9", cevrimdisi: "#3A3F63" };
 const DURUM_ETIKET = { cevrimici: "Çevrimiçi", bosta: "Boşta", cevrimdisi: "Çevrimdışı" };
 
 /* ---------- sol menü ---------- */
@@ -513,7 +514,7 @@ function Sidebar({ aktif, setAktif }) {
         style={{ borderColor: "#2A2F55", backgroundColor: "var(--anima-panel2)" }}
       >
         <div className="mb-6">
-          <AnimaLogo startColor={logoBaslangic} endColor={logoBitis} size={36} />
+          <GlennaLogo startColor={logoBaslangic} endColor={logoBitis} size={36} />
         </div>
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
@@ -557,13 +558,13 @@ function TopBar({ baslik }) {
         {baslik}
       </h1>
       <div className="flex items-center gap-3">
-        <div className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-full" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
+        <div className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
           <Search size={15} color="#8D89B0" />
           <input placeholder="Ara..." className="bg-transparent outline-none text-sm font-body w-32" style={{ color: "var(--anima-text)" }} />
         </div>
         <button className="w-9 h-9 rounded-full flex items-center justify-center relative" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
           <Bell size={16} color="#8D89B0" />
-          <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#FF8F6B" }} />
+          <span className="absolute top-1.5 right-1.5 w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "#A8D8B9" }} />
         </button>
       </div>
     </div>
@@ -582,7 +583,7 @@ function XPBar({ oyun }) {
         <span className="font-body text-xs" style={{ color: "#6B6890" }}>#{oyun.sira} sırada</span>
       </div>
       <div className="w-full h-3 rounded-full mt-2" style={{ backgroundColor: "var(--anima-panel2)", border: "1px solid #2A2F55" }}>
-        <div className="h-full rounded-full" style={{ width: `${yuzde}%`, background: `linear-gradient(90deg, ${accent}, #FF8F6B)` }} />
+        <div className="h-full rounded-full" style={{ width: `${yuzde}%`, background: `linear-gradient(90deg, ${accent}, #A8D8B9)` }} />
       </div>
       <div className="flex items-center justify-between mt-2">
         <span className="font-display font-semibold text-sm" style={{ color: "var(--anima-text)" }}>
@@ -654,10 +655,10 @@ function ProfileHero({ profile, setProfile }) {
           />
         </div>
         <div className="flex gap-2 mt-1">
-          <button onClick={kaydet} className="flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-body font-medium" style={{ backgroundColor: accent, color: "#14172B" }}>
+          <button onClick={kaydet} className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-body font-medium" style={{ backgroundColor: accent, color: "#14172B" }}>
             <Check size={13} /> Kaydet
           </button>
-          <button onClick={iptal} className="flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-body font-medium" style={{ backgroundColor: "#262B52", color: "#C9C5E8" }}>
+          <button onClick={iptal} className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-body font-medium" style={{ backgroundColor: "#262B52", color: "#C9C5E8" }}>
             <X size={13} /> Vazgeç
           </button>
         </div>
@@ -683,7 +684,7 @@ function ProfileHero({ profile, setProfile }) {
           <h2 className="font-display font-semibold text-2xl" style={isimStili}>{profile.isim}</h2>
           <button
             onClick={() => { setTaslak(profile); setDuzenle(true); }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-body font-medium"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-body font-medium"
             style={{ backgroundColor: "#262B52", color: "#C9C5E8" }}
           >
             <Pencil size={12} /> Profili düzenle
@@ -732,8 +733,8 @@ function Rozetler() {
       {ROZETLER.map((r) => {
         const Icon = r.icon;
         return (
-          <div key={r.label} className="flex items-center gap-2 px-3.5 py-2 rounded-full" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
-            <Icon size={14} color="#FF8F6B" />
+          <div key={r.label} className="flex items-center gap-2 px-3.5 py-2 rounded-lg" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
+            <Icon size={14} color="#A8D8B9" />
             <span className="font-body text-xs font-medium" style={{ color: "#C9C5E8" }}>{r.label}</span>
           </div>
         );
@@ -742,12 +743,12 @@ function Rozetler() {
   );
 }
 
-function Topluluklarim({ setAna, setAktifSunucu }) {
+function Topluluklarim({ setAna, setAktifSunucu, sunucular }) {
   return (
     <div className="rounded-2xl p-5" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
       <h3 className="font-display font-semibold text-sm mb-4" style={{ color: "var(--anima-text)" }}>Topluluklarım</h3>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        {SUNUCULAR.map((t) => (
+        {sunucular.map((t) => (
           <button
             key={t.id}
             onClick={() => { setAktifSunucu(t.id); setAna("topluluklar"); }}
@@ -769,7 +770,7 @@ function DersOdalarim() {
     <div className="rounded-2xl p-5" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
       <div className="flex items-center justify-between mb-4">
         <h3 className="font-display font-semibold text-sm" style={{ color: "var(--anima-text)" }}>Ders Odalarım</h3>
-        <span className="text-[10px] font-body font-medium px-2 py-1 rounded-full" style={{ backgroundColor: "#262B52", color: "#8D89B0" }}>yakında</span>
+        <span className="text-[10px] font-body font-medium px-2 py-1 rounded-lg" style={{ backgroundColor: "#262B52", color: "#8D89B0" }}>yakında</span>
       </div>
       <div className="flex flex-col gap-2">
         {DERS_ODALARI.map((o) => (
@@ -786,14 +787,14 @@ function DersOdalarim() {
   );
 }
 
-function ProfilView({ profile, setProfile, setAna, setAktifSunucu, oyun }) {
+function ProfilView({ profile, setProfile, setAna, setAktifSunucu, oyun, sunucular }) {
   return (
     <main className="flex-1 overflow-y-auto px-5 md:px-8 pb-10 flex flex-col gap-6 max-w-3xl">
       <ProfileHero profile={profile} setProfile={setProfile} />
       <XPBar oyun={oyun} />
       <Rozetler />
       <WeeklyChart />
-      <Topluluklarim setAna={setAna} setAktifSunucu={setAktifSunucu} />
+      <Topluluklarim setAna={setAna} setAktifSunucu={setAktifSunucu} sunucular={sunucular} />
       <DersOdalarim />
     </main>
   );
@@ -828,7 +829,7 @@ function ContactList({ aktifKisi, setAktifKisi, gorunum, setGorunum }) {
                 <p className="font-body text-xs truncate" style={{ color: "#6B6890" }}>{(DM_BASLANGIC[k.id] || []).slice(-1)[0]?.icerik || "Henüz mesaj yok"}</p>
               </div>
               {k.okunmadi > 0 && (
-                <span className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center font-body text-[10px] font-semibold" style={{ backgroundColor: "#FF8F6B", color: "#14172B" }}>
+                <span className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center font-body text-[10px] font-semibold" style={{ backgroundColor: "#A8D8B9", color: "#14172B" }}>
                   {k.okunmadi}
                 </span>
               )}
@@ -919,10 +920,20 @@ function MesajlarView({ aktifKisi, setAktifKisi, dmMessages, setDmMessages, prof
 
 /* ---------- topluluklar (sunucular) ---------- */
 
-function ServerRail({ aktifSunucu, sunucuSec }) {
+function ServerRail({ sunucular, aktifSunucu, sunucuSec, onYeniTopluluk }) {
+  const [formAcik, setFormAcik] = useState(false);
+  const [isim, setIsim] = useState("");
+
+  const gonder = () => {
+    if (!isim.trim()) return;
+    onYeniTopluluk(isim.trim());
+    setIsim("");
+    setFormAcik(false);
+  };
+
   return (
-    <div className="flex flex-col items-center gap-3 w-16 py-4 shrink-0" style={{ backgroundColor: "#0F1226" }}>
-      {SUNUCULAR.map((s) => {
+    <div className="relative flex flex-col items-center gap-3 w-16 py-4 shrink-0" style={{ backgroundColor: "#0F1226" }}>
+      {sunucular.map((s) => {
         const aktif = aktifSunucu === s.id;
         return (
           <button
@@ -936,15 +947,53 @@ function ServerRail({ aktifSunucu, sunucuSec }) {
           </button>
         );
       })}
-      <button className="w-11 h-11 rounded-full flex items-center justify-center mt-1" style={{ backgroundColor: "var(--anima-panel)", color: "#6FD3C7" }} title="Topluluk keşfet">
+      <button
+        onClick={() => setFormAcik(true)}
+        className="w-11 h-11 rounded-full flex items-center justify-center mt-1"
+        style={{ backgroundColor: "var(--anima-panel)", color: "#6FD3C7" }}
+        title="Yeni topluluk oluştur"
+      >
         <Plus size={18} />
       </button>
+
+      {formAcik && (
+        <div className="absolute left-16 top-4 z-30 w-64 p-4 rounded-2xl" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
+          <p className="font-body text-sm font-medium mb-2" style={{ color: "var(--anima-text)" }}>Yeni topluluk oluştur</p>
+          <input
+            autoFocus
+            value={isim}
+            onChange={(e) => setIsim(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && gonder()}
+            placeholder="Topluluk adı"
+            className="w-full px-3 py-2 rounded-lg font-body text-sm outline-none"
+            style={{ backgroundColor: "var(--anima-panel2)", color: "var(--anima-text)", border: "1px solid #2A2F55" }}
+          />
+          <div className="flex gap-2 mt-3">
+            <button onClick={gonder} className="flex-1 py-2 rounded-lg font-body text-xs font-medium" style={{ backgroundColor: "#7CB893", color: "#14172B" }}>
+              Oluştur
+            </button>
+            <button onClick={() => { setFormAcik(false); setIsim(""); }} className="flex-1 py-2 rounded-lg font-body text-xs font-medium" style={{ backgroundColor: "var(--anima-panel2)", color: "#C9C5E8" }}>
+              Vazgeç
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-function ChannelList({ sunucu, kanallar, aktifKanalId, setAktifKanalId, profile }) {
+function ChannelList({ sunucu, kanallar, aktifKanalId, setAktifKanalId, profile, onYeniKanal }) {
   const { accent } = useContext(AccentContext);
+  const [formAcik, setFormAcik] = useState(false);
+  const [isim, setIsim] = useState("");
+
+  const gonder = () => {
+    if (!isim.trim()) return;
+    onYeniKanal(isim.trim());
+    setIsim("");
+    setFormAcik(false);
+  };
+
   return (
     <div className="w-56 shrink-0 flex flex-col" style={{ backgroundColor: "var(--anima-panel2)", borderRight: "1px solid #2A2F55" }}>
       <div className="px-4 py-4 border-b flex items-center justify-between" style={{ borderColor: "#2A2F55" }}>
@@ -952,7 +1001,29 @@ function ChannelList({ sunucu, kanallar, aktifKanalId, setAktifKanalId, profile 
         <ChevronDown size={15} color="#8D89B0" />
       </div>
       <div className="flex-1 overflow-y-auto py-3 px-2">
-        <p className="font-body text-[11px] font-medium px-2 mb-1.5" style={{ color: "#6B6890" }}>Metin kanalları</p>
+        <div className="flex items-center justify-between px-2 mb-1.5">
+          <p className="font-body text-[11px] font-medium" style={{ color: "#6B6890" }}>Metin kanalları</p>
+          <button onClick={() => setFormAcik((v) => !v)} title="Kanal ekle">
+            <Plus size={13} color="#6B6890" />
+          </button>
+        </div>
+        {formAcik && (
+          <div className="mb-2 px-1">
+            <input
+              autoFocus
+              value={isim}
+              onChange={(e) => setIsim(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && gonder()}
+              placeholder="kanal-adı"
+              className="w-full px-2.5 py-1.5 rounded-lg font-body text-xs outline-none mb-1.5"
+              style={{ backgroundColor: "var(--anima-panel)", color: "var(--anima-text)", border: "1px solid #2A2F55" }}
+            />
+            <div className="flex gap-1.5">
+              <button onClick={gonder} className="flex-1 py-1 rounded-lg font-body text-[11px] font-medium" style={{ backgroundColor: "#7CB893", color: "#14172B" }}>Ekle</button>
+              <button onClick={() => { setFormAcik(false); setIsim(""); }} className="flex-1 py-1 rounded-lg font-body text-[11px] font-medium" style={{ backgroundColor: "var(--anima-panel)", color: "#C9C5E8" }}>Vazgeç</button>
+            </div>
+          </div>
+        )}
         {kanallar.metin.map((k) => {
           const aktif = aktifKanalId === k.id;
           return (
@@ -1072,7 +1143,7 @@ function MemberList({ uyeler, profile }) {
                   </div>
                   <div className="flex items-center gap-1 min-w-0">
                     <span className="font-body text-sm truncate" style={{ color: u.durum === "cevrimdisi" ? "#6B6890" : "#C9C5E8" }}>{gosterilenAd}</span>
-                    {u.rol === "moderator" && <Shield size={11} color="#FF8F6B" />}
+                    {u.rol === "moderator" && <Shield size={11} color="#A8D8B9" />}
                   </div>
                 </div>
               );
@@ -1084,16 +1155,16 @@ function MemberList({ uyeler, profile }) {
   );
 }
 
-function TopluluklarView({ aktifSunucu, sunucuSec, aktifKanalId, setAktifKanalId, communityMessages, setCommunityMessages, profile }) {
-  const sunucu = SUNUCULAR.find((s) => s.id === aktifSunucu);
-  const kanallar = KANAL_YAPISI[aktifSunucu];
-  const uyeler = UYELER[aktifSunucu];
+function TopluluklarView({ sunucular, kanalYapisi, uyelerMap, aktifSunucu, sunucuSec, aktifKanalId, setAktifKanalId, communityMessages, setCommunityMessages, profile, onYeniTopluluk, onYeniKanal }) {
+  const sunucu = sunucular.find((s) => s.id === aktifSunucu);
+  const kanallar = kanalYapisi[aktifSunucu];
+  const uyeler = uyelerMap[aktifSunucu] || [];
   const aktifKanal = kanallar.metin.find((k) => k.id === aktifKanalId) || kanallar.metin[0];
 
   return (
     <div className="flex-1 flex min-h-0">
-      <ServerRail aktifSunucu={aktifSunucu} sunucuSec={sunucuSec} />
-      <ChannelList sunucu={sunucu} kanallar={kanallar} aktifKanalId={aktifKanal.id} setAktifKanalId={setAktifKanalId} profile={profile} />
+      <ServerRail sunucular={sunucular} aktifSunucu={aktifSunucu} sunucuSec={sunucuSec} onYeniTopluluk={onYeniTopluluk} />
+      <ChannelList sunucu={sunucu} kanallar={kanallar} aktifKanalId={aktifKanal.id} setAktifKanalId={setAktifKanalId} profile={profile} onYeniKanal={onYeniKanal} />
       <ToplulukChat kanal={aktifKanal} mesajlar={communityMessages} setMesajlar={setCommunityMessages} profile={profile} />
       <MemberList uyeler={uyeler} profile={profile} />
     </div>
@@ -1109,7 +1180,7 @@ function LiderlikView({ profile, oyun }) {
       <div className="rounded-2xl p-5" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
         <div className="flex items-center justify-between mb-4">
           <h3 className="font-display font-semibold text-base" style={{ color: "var(--anima-text)" }}>Haftalık Liderlik Tablosu</h3>
-          <span className="font-body text-xs px-3 py-1 rounded-full" style={{ backgroundColor: "var(--anima-panel2)", color: "#6FD3C7", border: "1px solid #2A2F55" }}>⏳ Sıfırlanma: 2g 14s</span>
+          <span className="font-body text-xs px-3 py-1 rounded-lg" style={{ backgroundColor: "var(--anima-panel2)", color: "#6FD3C7", border: "1px solid #2A2F55" }}>⏳ Sıfırlanma: 2g 14s</span>
         </div>
 
         <div className="flex flex-col gap-2">
@@ -1140,18 +1211,18 @@ function LiderlikView({ profile, oyun }) {
             </div>
           ))}
 
-          <div className="flex items-center gap-3 p-3 rounded-xl mt-1" style={{ backgroundColor: "#262B52", border: "2px solid #9C8FFF" }}>
-            <span className="font-body text-xs font-bold w-7 shrink-0" style={{ color: "#9C8FFF" }}>#{oyun.sira}</span>
-            <div className="w-8 h-8 rounded-full flex items-center justify-center font-display font-semibold text-[11px] shrink-0" style={{ backgroundColor: "#0F1226", border: "1.5px solid #9C8FFF", color: "#9C8FFF" }}>{initials(profile.isim)}</div>
+          <div className="flex items-center gap-3 p-3 rounded-xl mt-1" style={{ backgroundColor: "#262B52", border: "2px solid #7CB893" }}>
+            <span className="font-body text-xs font-bold w-7 shrink-0" style={{ color: "#7CB893" }}>#{oyun.sira}</span>
+            <div className="w-8 h-8 rounded-full flex items-center justify-center font-display font-semibold text-[11px] shrink-0" style={{ backgroundColor: "#0F1226", border: "1.5px solid #7CB893", color: "#7CB893" }}>{initials(profile.isim)}</div>
             <div className="flex-1 min-w-0">
               <p className="font-body text-sm font-semibold truncate" style={{ color: "var(--anima-text)" }}>{profile.isim} (Sen)</p>
             </div>
-            <span className="font-display font-semibold text-sm shrink-0" style={{ color: "#9C8FFF" }}>{oyun.xp.toLocaleString("tr-TR")} XP</span>
+            <span className="font-display font-semibold text-sm shrink-0" style={{ color: "#7CB893" }}>{oyun.xp.toLocaleString("tr-TR")} XP</span>
           </div>
         </div>
 
         <p className="font-body text-xs text-center mt-4" style={{ color: "#8D89B0" }}>
-          İlk 3'e girmek için <span style={{ color: "#FF8F6B", fontWeight: 700 }}>{(LIDERLIK_TABLOSU[2].xp - oyun.xp).toLocaleString("tr-TR")} XP</span> daha kazan!
+          İlk 3'e girmek için <span style={{ color: "#A8D8B9", fontWeight: 700 }}>{(LIDERLIK_TABLOSU[2].xp - oyun.xp).toLocaleString("tr-TR")} XP</span> daha kazan!
         </p>
       </div>
     </main>
@@ -1213,7 +1284,7 @@ function EnvanterKarti() {
               disabled={c.kilitli}
               onClick={() => !c.kilitli && setCerceve(c.id)}
               className="flex flex-col items-center gap-2 p-3 rounded-xl text-center transition-opacity"
-              style={{ backgroundColor: "var(--anima-panel2)", border: kusanildi ? "2px solid #9C8FFF" : "1px solid #2A2F55", opacity: c.kilitli ? 0.45 : 1 }}
+              style={{ backgroundColor: "var(--anima-panel2)", border: kusanildi ? "2px solid #7CB893" : "1px solid #2A2F55", opacity: c.kilitli ? 0.45 : 1 }}
             >
               <div className="relative" style={{ width: 44, height: 44 }}>
                 <FrameRing id={c.id} />
@@ -1226,7 +1297,7 @@ function EnvanterKarti() {
               </div>
               <div className="min-w-0">
                 <p className="font-body text-[11px] font-medium truncate" style={{ color: "var(--anima-text)" }}>{c.ad}</p>
-                <p className="font-body text-[10px]" style={{ color: c.kilitli ? "#6B6890" : kusanildi ? "#9C8FFF" : "#6FD3C7" }}>{c.kilitli ? "Kilitli" : kusanildi ? "Kuşanıldı" : "Seç"}</p>
+                <p className="font-body text-[10px]" style={{ color: c.kilitli ? "#6B6890" : kusanildi ? "#7CB893" : "#6FD3C7" }}>{c.kilitli ? "Kilitli" : kusanildi ? "Kuşanıldı" : "Seç"}</p>
               </div>
             </button>
           );
@@ -1254,7 +1325,7 @@ function RenkSecici({ etiket, renk, setRenk }) {
   );
 }
 
-function AyarlarView({ profile }) {
+function AyarlarView({ profile, session, cikisYap }) {
   const { accent, setAccent } = useContext(AccentContext);
   const {
     bgRenk, setBgRenk,
@@ -1328,7 +1399,7 @@ function AyarlarView({ profile }) {
                 key={f.id}
                 onClick={() => setFontId(f.id)}
                 className="px-3.5 py-2 rounded-xl text-left"
-                style={{ backgroundColor: fontId === f.id ? "#262B52" : "var(--anima-panel2)", border: fontId === f.id ? "1.5px solid #9C8FFF" : "1px solid #2A2F55" }}
+                style={{ backgroundColor: fontId === f.id ? "#262B52" : "var(--anima-panel2)", border: fontId === f.id ? "1.5px solid #7CB893" : "1px solid #2A2F55" }}
               >
                 <p className="text-sm" style={{ color: "var(--anima-text)", fontFamily: f.display }}>{f.ad}</p>
               </button>
@@ -1339,10 +1410,10 @@ function AyarlarView({ profile }) {
 
       <div className="rounded-2xl p-5" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
         <h3 className="font-display font-semibold text-sm mb-1" style={{ color: "var(--anima-text)" }}>Uygulama simgesi</h3>
-        <p className="font-body text-xs mb-4" style={{ color: "#8D89B0" }}>Anima logosunun gradyan renklerini seç, sol menüdeki simge de güncellensin.</p>
+        <p className="font-body text-xs mb-4" style={{ color: "#8D89B0" }}>Glenna logosunun gradyan renklerini seç, sol menüdeki simge de güncellensin.</p>
         <div className="flex items-center gap-5">
           <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0" style={{ backgroundColor: "var(--anima-panel2)", border: "1px solid #2A2F55" }}>
-            <AnimaLogo startColor={logoBaslangic} endColor={logoBitis} size={40} />
+            <GlennaLogo startColor={logoBaslangic} endColor={logoBitis} size={40} />
           </div>
           <div className="flex-1 flex flex-col gap-3">
             <RenkSecici etiket="Başlangıç rengi" renk={logoBaslangic} setRenk={setLogoBaslangic} />
@@ -1372,9 +1443,28 @@ function AyarlarView({ profile }) {
       <div className="rounded-2xl p-5" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
         <div className="flex items-center justify-between">
           <h3 className="font-display font-semibold text-sm" style={{ color: "var(--anima-text)" }}>Yapay zeka desteği</h3>
-          <span className="text-[10px] font-body font-medium px-2 py-1 rounded-full" style={{ backgroundColor: "#262B52", color: "#8D89B0" }}>yakında</span>
+          <span className="text-[10px] font-body font-medium px-2 py-1 rounded-lg" style={{ backgroundColor: "#262B52", color: "#8D89B0" }}>yakında</span>
         </div>
         <p className="font-body text-xs mt-2" style={{ color: "#8D89B0" }}>Ders sorularına yardım ve sohbet özetleme burada açılacak.</p>
+      </div>
+
+      {session && (
+        <div className="rounded-2xl p-5" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
+          <h3 className="font-display font-semibold text-sm mb-1" style={{ color: "var(--anima-text)" }}>Hesap</h3>
+          <p className="font-body text-xs mb-4" style={{ color: "#8D89B0" }}>Giriş yapılan e-posta: {session.user?.email}</p>
+          <button
+            onClick={cikisYap}
+            className="px-4 py-2 rounded-lg font-body text-xs font-medium"
+            style={{ backgroundColor: "#262B52", color: "#A8D8B9" }}
+          >
+            Çıkış yap
+          </button>
+        </div>
+      )}
+
+      <div className="flex gap-4 justify-center pb-4">
+        <Link to="/gizlilik" className="font-body text-xs" style={{ color: "#6B6890" }}>Gizlilik Politikası</Link>
+        <Link to="/kullanim-sartlari" className="font-body text-xs" style={{ color: "#6B6890" }}>Kullanım Şartları</Link>
       </div>
     </main>
   );
@@ -1382,9 +1472,9 @@ function AyarlarView({ profile }) {
 
 /* ---------- kök uygulama ---------- */
 
-export default function AnimaApp() {
+export default function GlennaApp({ session, cikisYap }) {
   const [ana, setAna] = useState("profil");
-  const [accent, setAccent] = useState("#9C8FFF");
+  const [accent, setAccent] = useState("#7CB893");
   const [cerceve, setCerceve] = useState("kozmik");
   const [unvan, setUnvan] = useState("mat");
 
@@ -1393,10 +1483,10 @@ export default function AnimaApp() {
   const [metinRengi, setMetinRengi] = useState("#F3F1FA");
   const [isimRengi, setIsimRengi] = useState("#F3F1FA");
   const [isimGradyan, setIsimGradyan] = useState(false);
-  const [isimBitis, setIsimBitis] = useState("#FF8F6B");
+  const [isimBitis, setIsimBitis] = useState("#A8D8B9");
   const [fontId, setFontId] = useState("modern");
-  const [logoBaslangic, setLogoBaslangic] = useState("#9C8FFF");
-  const [logoBitis, setLogoBitis] = useState("#FF8F6B");
+  const [logoBaslangic, setLogoBaslangic] = useState("#7CB893");
+  const [logoBitis, setLogoBitis] = useState("#A8D8B9");
 
   const [oyun] = useState({
     seviye: 14,
@@ -1415,16 +1505,44 @@ export default function AnimaApp() {
   const [aktifKisi, setAktifKisi] = useState("ali");
   const [dmMessages, setDmMessages] = useState(DM_BASLANGIC);
 
+  const [sunucular, setSunucular] = useState(SUNUCULAR_BASLANGIC);
+  const [kanalYapisi, setKanalYapisi] = useState(KANAL_YAPISI_BASLANGIC);
+  const [uyelerMap, setUyelerMap] = useState(UYELER_BASLANGIC);
   const [aktifSunucu, setAktifSunucu] = useState("yks");
   const [aktifKanalId, setAktifKanalId] = useState("genel");
   const [communityMessages, setCommunityMessages] = useState(TOPLULUK_SOHBET_BASLANGIC);
 
   const sunucuSec = (id) => {
     setAktifSunucu(id);
-    setAktifKanalId(KANAL_YAPISI[id].metin[0].id);
+    setAktifKanalId(kanalYapisi[id].metin[0].id);
   };
 
-  const basliklar = { profil: "Anima", mesajlar: "Mesajlar", topluluklar: "Topluluklar", liderlik: "Liderlik Tablosu", ayarlar: "Ayarlar" };
+  const yeniToplulukOlustur = (isim) => {
+    const id = "t" + Date.now();
+    const renkler = ["#7CB893", "#A8D8B9", "#6FD3C7", "#FF6FA5", "#F2C94C"];
+    const yeniSunucu = { id, ad: isim, kisa: initials(isim), renk: renkler[sunucular.length % renkler.length], uye: 1 };
+    setSunucular((s) => [...s, yeniSunucu]);
+    setKanalYapisi((k) => ({
+      ...k,
+      [id]: { metin: [{ id: "genel", ad: "genel-sohbet", aciklama: `${isim} topluluğunun genel sohbet alanı` }], ses: [] },
+    }));
+    setUyelerMap((u) => ({ ...u, [id]: [{ ad: SELF, durum: "cevrimici", rol: "moderator" }] }));
+    setCommunityMessages((m) => ({ ...m, genel: m.genel || [] }));
+    setAktifSunucu(id);
+    setAktifKanalId("genel");
+  };
+
+  const yeniKanalOlustur = (isim) => {
+    const id = isim.toLocaleLowerCase("tr-TR").replace(/\s+/g, "-").replace(/[^a-z0-9ığüşöç-]/g, "") || "kanal-" + Date.now();
+    setKanalYapisi((k) => {
+      const s = k[aktifSunucu];
+      if (s.metin.some((c) => c.id === id)) return k;
+      return { ...k, [aktifSunucu]: { ...s, metin: [...s.metin, { id, ad: id, aciklama: `${isim} kanalı` }] } };
+    });
+    setAktifKanalId(id);
+  };
+
+  const basliklar = { profil: "Glenna", mesajlar: "Mesajlar", topluluklar: "Topluluklar", liderlik: "Liderlik Tablosu", ayarlar: "Ayarlar" };
 
   return (
     <AccentContext.Provider value={{ accent, setAccent }}>
@@ -1452,12 +1570,15 @@ export default function AnimaApp() {
           <div className="flex-1 flex flex-col min-w-0 pb-16 md:pb-0">
             {ana !== "mesajlar" && <TopBar baslik={basliklar[ana]} />}
 
-            {ana === "profil" && <ProfilView profile={profile} setProfile={setProfile} setAna={setAna} setAktifSunucu={sunucuSec} oyun={oyun} />}
+            {ana === "profil" && <ProfilView profile={profile} setProfile={setProfile} setAna={setAna} setAktifSunucu={sunucuSec} oyun={oyun} sunucular={sunucular} />}
             {ana === "mesajlar" && (
               <MesajlarView aktifKisi={aktifKisi} setAktifKisi={setAktifKisi} dmMessages={dmMessages} setDmMessages={setDmMessages} profile={profile} />
             )}
             {ana === "topluluklar" && (
               <TopluluklarView
+                sunucular={sunucular}
+                kanalYapisi={kanalYapisi}
+                uyelerMap={uyelerMap}
                 aktifSunucu={aktifSunucu}
                 sunucuSec={sunucuSec}
                 aktifKanalId={aktifKanalId}
@@ -1465,10 +1586,12 @@ export default function AnimaApp() {
                 communityMessages={communityMessages}
                 setCommunityMessages={setCommunityMessages}
                 profile={profile}
+                onYeniTopluluk={yeniToplulukOlustur}
+                onYeniKanal={yeniKanalOlustur}
               />
             )}
             {ana === "liderlik" && <LiderlikView profile={profile} oyun={oyun} />}
-            {ana === "ayarlar" && <AyarlarView profile={profile} />}
+            {ana === "ayarlar" && <AyarlarView profile={profile} session={session} cikisYap={cikisYap} />}
           </div>
         </div>
         </ThemeContext.Provider>
