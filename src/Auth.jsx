@@ -57,7 +57,7 @@ export default function Auth({ children }) {
       <div className="w-full h-screen flex items-center justify-center font-body px-4" style={{ backgroundColor: "#14172B" }}>
         <style>{FONT_STYLE}</style>
         <div className="w-full max-w-sm rounded-2xl p-6" style={{ backgroundColor: "#1E2242", border: "1px solid #2A2F55" }}>
-          <h1 className="font-display font-bold text-2xl mb-1" style={{ color: "#F3F1FA" }}>Anima</h1>
+          <h1 className="font-display font-bold text-2xl mb-1" style={{ color: "#F3F1FA" }}>Glenna</h1>
           <p className="font-body text-sm mb-6" style={{ color: "#8D89B0" }}>
             {mod === "giris" ? "Hesabına giriş yap" : "Yeni hesap oluştur"}
           </p>
