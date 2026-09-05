@@ -41,7 +41,7 @@ const SELF = "__SELF__";
 
 /* ---------- uygulama simgesi ---------- */
 
-function AnimaLogo({ startColor = "#7CB893", endColor = "#A8D8B9", size = 40 }) {
+function GlennaLogo({ startColor = "#7CB893", endColor = "#A8D8B9", size = 40 }) {
   const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
   const gradientId = `animaGrad_${uid}`;
   return (
@@ -514,7 +514,7 @@ function Sidebar({ aktif, setAktif }) {
         style={{ borderColor: "#2A2F55", backgroundColor: "var(--anima-panel2)" }}
       >
         <div className="mb-6">
-          <AnimaLogo startColor={logoBaslangic} endColor={logoBitis} size={36} />
+          <GlennaLogo startColor={logoBaslangic} endColor={logoBitis} size={36} />
         </div>
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon;
@@ -1410,10 +1410,10 @@ function AyarlarView({ profile, session, cikisYap }) {
 
       <div className="rounded-2xl p-5" style={{ backgroundColor: "var(--anima-panel)", border: "1px solid #2A2F55" }}>
         <h3 className="font-display font-semibold text-sm mb-1" style={{ color: "var(--anima-text)" }}>Uygulama simgesi</h3>
-        <p className="font-body text-xs mb-4" style={{ color: "#8D89B0" }}>Anima logosunun gradyan renklerini seç, sol menüdeki simge de güncellensin.</p>
+        <p className="font-body text-xs mb-4" style={{ color: "#8D89B0" }}>Glenna logosunun gradyan renklerini seç, sol menüdeki simge de güncellensin.</p>
         <div className="flex items-center gap-5">
           <div className="w-16 h-16 rounded-2xl flex items-center justify-center shrink-0" style={{ backgroundColor: "var(--anima-panel2)", border: "1px solid #2A2F55" }}>
-            <AnimaLogo startColor={logoBaslangic} endColor={logoBitis} size={40} />
+            <GlennaLogo startColor={logoBaslangic} endColor={logoBitis} size={40} />
           </div>
           <div className="flex-1 flex flex-col gap-3">
             <RenkSecici etiket="Başlangıç rengi" renk={logoBaslangic} setRenk={setLogoBaslangic} />
@@ -1472,7 +1472,7 @@ function AyarlarView({ profile, session, cikisYap }) {
 
 /* ---------- kök uygulama ---------- */
 
-export default function AnimaApp({ session, cikisYap }) {
+export default function GlennaApp({ session, cikisYap }) {
   const [ana, setAna] = useState("profil");
   const [accent, setAccent] = useState("#7CB893");
   const [cerceve, setCerceve] = useState("kozmik");
@@ -1542,7 +1542,7 @@ export default function AnimaApp({ session, cikisYap }) {
     setAktifKanalId(id);
   };
 
-  const basliklar = { profil: "Anima", mesajlar: "Mesajlar", topluluklar: "Topluluklar", liderlik: "Liderlik Tablosu", ayarlar: "Ayarlar" };
+  const basliklar = { profil: "Glenna", mesajlar: "Mesajlar", topluluklar: "Topluluklar", liderlik: "Liderlik Tablosu", ayarlar: "Ayarlar" };
 
   return (
     <AccentContext.Provider value={{ accent, setAccent }}>
